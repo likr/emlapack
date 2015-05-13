@@ -21,7 +21,7 @@
     "url": "https://github.com/likr/emlapack.git"
   },
   "author": "Yosuke ONOUE <onoue@likr-lab.com>",
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/likr/emlapack/issues"
   },

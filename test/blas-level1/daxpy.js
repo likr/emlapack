@@ -24,9 +24,9 @@ describe('daxpy(n, da, dx, incx, dy, incy)', function () {
     dy.set([2, 3, 4, 5]);
     incy[0] = 1;
 
-    var daxpy = linalg.cwrap('daxpy_', 'hoge', ['number', 'number', 'number', 'number', 'number', 'number']);
+    var daxpy = linalg.cwrap('f2c_daxpy', null, ['number', 'number', 'number', 'number', 'number', 'number']);
     daxpy(pn, pda, pdx, pincx, pdy, pincy);
 
-    expect(dy).to.be.eql(new Float64Array([4.5, 8, 11.5, 15]));
+    expect(dy).to.be.eql([4.5, 8, 11.5, 15]);
   });
 });

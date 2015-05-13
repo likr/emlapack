@@ -3,8 +3,8 @@ var linalg = require('../../linalg');
 
 describe('dgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)', function () {
   it('computes c := alpha * a * b + beta * c', function () {
-    var ptransa = linalg._malloc(2),
-        ptransb = linalg._malloc(2),
+    var ptransa = linalg._malloc(1),
+        ptransb = linalg._malloc(1),
         pm = linalg._malloc(4),
         pn = linalg._malloc(4),
         pk = linalg._malloc(4),
@@ -17,23 +17,27 @@ describe('dgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)', 
         pc = linalg._malloc(128),
         pldc = linalg._malloc(4);
 
-    linalg.writeStringToMemory('N', ptransa);
-    linalg.writeStringToMemory('N', ptransb);
-    linalg.writeArrayToMemory([4], pm);
-    linalg.writeArrayToMemory([4], pn);
-    linalg.writeArrayToMemory([4], pk);
-    linalg.writeArrayToMemory([1.5], palpha);
-    linalg.writeArrayToMemory([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], pa);
-    linalg.writeArrayToMemory([4], plda);
-    linalg.writeArrayToMemory([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], pb);
-    linalg.writeArrayToMemory([4], pldb);
-    linalg.writeArrayToMemory([2.5], pbeta);
-    linalg.writeArrayToMemory([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], pc);
-    linalg.writeArrayToMemory([4], pldc);
+    linalg.setValue(ptransa, 'N'.charCodeAt(0), 'i8');
+    linalg.setValue(ptransb, 'N'.charCodeAt(0), 'i8');
+    linalg.setValue(pm, 4, 'i32');
+    linalg.setValue(pn, 4, 'i32');
+    linalg.setValue(pk, 4, 'i32');
+    linalg.setValue(palpha, 1.5, 'double');
+    linalg.setValue(plda, 4, 'i32');
+    linalg.setValue(pldb, 4, 'i32');
+    linalg.setValue(pbeta, 2.5, 'double');
+    linalg.setValue(pldc, 4, 'i32');
 
-    var dgemm = linalg.cwrap('dgemm_', null, ['string', 'string', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number']);
+    var a = new Float64Array(linalg.HEAPF64.buffer, pa, 16);
+    var b = new Float64Array(linalg.HEAPF64.buffer, pb, 16);
+    var c = new Float64Array(linalg.HEAPF64.buffer, pc, 16);
+    a.set([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
+    b.set([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
+    c.set([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
+
+    var dgemm = linalg.cwrap('f2c_dgemm', null, ['number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number']);
     dgemm(ptransa, ptransb, pm, pn, pk, palpha, pa, plda, pb, pldb, pbeta, pc, pldc);
 
-    expect(new Float64Array(linalg.HEAPF64, pc, 16)).to.be.eql(new Float64Array([4.5, 8, 11.5, 15]));
+    expect(c).to.be.eql([8.5, 8.5, 8.5, 8.5, 8.5, 8.5, 8.5, 8.5, 8.5, 8.5, 8.5, 8.5, 8.5, 8.5, 8.5, 8.5]);
   });
 });

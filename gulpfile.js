@@ -129,4 +129,6 @@ gulp.task('link', ['compile-libf2c', 'compile-util', 'compile-l1'], shell.task([
 
 gulp.task('build', ['link']);
 
+gulp.task('test', shell.task('mocha --recursive --colors --reporter dot'));
+
 gulp.task('default', ['build']);

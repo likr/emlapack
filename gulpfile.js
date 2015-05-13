@@ -3,7 +3,9 @@ var gulp = require('gulp'),
 
 var blasUtilFunctions = [
   'dcabs1',
-  'scabs1'
+  'lsame',
+  'scabs1',
+  'xerbla'
 ];
 
 var blasL1Functions = [
@@ -59,10 +61,113 @@ var blasL1Functions = [
   'izamax'
 ];
 
+var blasL2Functions = [
+  'sgemv',
+  'sgbmv',
+  'ssymv',
+  'ssbmv',
+  'sspmv',
+  'strmv',
+  'stbmv',
+  'stpmv',
+  'strsv',
+  'stbsv',
+  'stpsv',
+  'sger',
+  'ssyr',
+  'sspr',
+  'ssyr2',
+  'sspr2',
+  'dgemv',
+  'dgbmv',
+  'dsymv',
+  'dsbmv',
+  'dspmv',
+  'dtrmv',
+  'dtbmv',
+  'dtpmv',
+  'dtrsv',
+  'dtbsv',
+  'dtpsv',
+  'dger',
+  'dsyr',
+  'dspr',
+  'dsyr2',
+  'dspr2',
+  'cgemv',
+  'cgbmv',
+  'chemv',
+  'chbmv',
+  'chpmv',
+  'ctrmv',
+  'ctbmv',
+  'ctpmv',
+  'ctrsv',
+  'ctbsv',
+  'ctpsv',
+  'cgeru',
+  'cgerc',
+  'cher',
+  'chpr',
+  'cher2',
+  'chpr2',
+  'zgemv',
+  'zgbmv',
+  'zhemv',
+  'zhbmv',
+  'zhpmv',
+  'ztrmv',
+  'ztbmv',
+  'ztpmv',
+  'ztrsv',
+  'ztbsv',
+  'ztpsv',
+  'zgeru',
+  'zgerc',
+  'zher',
+  'zhpr',
+  'zher2',
+  'zhpr2'
+];
+
+var blasL3Functions = [
+  'sgemm',
+  'ssymm',
+  'ssyrk',
+  'ssyr2k',
+  'strmm',
+  'strsm',
+  'dgemm',
+  'dsymm',
+  'dsyrk',
+  'dsyr2k',
+  'dtrmm',
+  'dtrsm',
+  'cgemm',
+  'csymm',
+  'chemm',
+  'csyrk',
+  'cherk',
+  'csyr2k',
+  'cher2k',
+  'ctrmm',
+  'ctrsm',
+  'zgemm',
+  'zsymm',
+  'zhemm',
+  'zsyrk',
+  'zherk',
+  'zsyr2k',
+  'zher2k',
+  'ztrmm',
+  'ztrsm'
+];
+
 var libf2cFunctions = [
   'cabs',
   'close',
   'c_abs',
+  'c_div',
   'd_cnjg',
   'd_imag',
   'd_sign',
@@ -77,7 +182,7 @@ var libf2cFunctions = [
 ];
 
 var exportedFunctions = function () {
-  return blasL1Functions
+  return [].concat(blasL1Functions, blasL2Functions, blasL3Functions)
     .map(function (name) {
       return '"_' + name + '_"';
     })
@@ -123,7 +228,35 @@ gulp.task('compile-l1', ['f2c-l1'], shell.task(
     })
 ));
 
-gulp.task('link', ['compile-libf2c', 'compile-util', 'compile-l1'], shell.task([
+gulp.task('f2c-l2', shell.task(
+  blasL2Functions
+    .map(function (name) {
+      return 'f2c -dblas blas/' + name + '.f';
+    })
+));
+
+gulp.task('compile-l2', ['f2c-l2'], shell.task(
+  blasL2Functions
+    .map(function (name) {
+      return 'emcc blas/' + name + '.c -I. -o blas/' + name + '.bc';
+    })
+));
+
+gulp.task('f2c-l3', shell.task(
+  blasL3Functions
+    .map(function (name) {
+      return 'f2c -dblas blas/' + name + '.f';
+    })
+));
+
+gulp.task('compile-l3', ['f2c-l3'], shell.task(
+  blasL3Functions
+    .map(function (name) {
+      return 'emcc blas/' + name + '.c -I. -o blas/' + name + '.bc';
+    })
+));
+
+gulp.task('link', ['compile-libf2c', 'compile-util', 'compile-l1', 'compile-l2', 'compile-l3'], shell.task([
   "emcc libf2c/*.bc blas/*.bc -o linalg.js -s EXPORTED_FUNCTIONS='[" + exportedFunctions() + "]' --post-js export.js"
 ]));
 

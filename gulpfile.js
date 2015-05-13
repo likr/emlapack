@@ -1,9 +1,9 @@
 var gulp = require('gulp'),
     shell = require('gulp-shell'),
-    libf2cFiles = require('./libf2c-files'),
-    blasFiles = require('./blas-files'),
-    lapackFiles = require('./lapack-files'),
-    exportFunctions = require('./export-functions');
+    libf2cFiles = require('./src/libf2c-files'),
+    blasFiles = require('./src/blas-files'),
+    lapackFiles = require('./src/lapack-files'),
+    exportFunctions = require('./src/export-functions');
 
 var lapackInstallFiles = [
   'dlamch',
@@ -58,7 +58,7 @@ gulp.task('compile-lapack', shell.task(
 ));
 
 gulp.task('link', ['compile-libf2c', 'compile-blas', 'compile-lapack', 'compile-lapack-install'], shell.task([
-  "emcc build/*.bc -o linalg.js -s EXPORTED_FUNCTIONS='[" + joinNames(exportFunctions) + "]' --post-js export.js"
+  "emcc build/*.bc -o emlapack.js -s EXPORTED_FUNCTIONS='[" + joinNames(exportFunctions) + "]' --post-js src/export.js"
 ]));
 
 gulp.task('build', ['link']);

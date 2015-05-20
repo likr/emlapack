@@ -1,6 +1,7 @@
 var libf2cFiles = [
   'c_abs',
   'c_div',
+  'c_sqrt',
   'cabs',
   'close',
   'ctype',
@@ -17,10 +18,12 @@ var libf2cFiles = [
   'i_dnnt',
   'i_nint',
   'open',
+  'pow_ci',
   'pow_dd',
   'pow_di',
   'pow_ii',
   'pow_ri',
+  'pow_zi',
   'r_cnjg',
   'r_imag',
   'r_lg10',
@@ -35,7 +38,8 @@ var libf2cFiles = [
   'wref',
   'wrtfmt',
   'z_abs',
-  'z_div'
+  'z_div',
+  'z_sqrt'
 ];
 
 module.exports = libf2cFiles;

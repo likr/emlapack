@@ -55,7 +55,7 @@ console.log(w);
 
 ## Building
 
-To build, you'll need to download [Emscripten](http://kripken.github.io/emscripten-site) and download [clapack](http://www.netlib.org/clapack/) into `./clapack`.
+To build, you'll need to install and set up [Emscripten](http://kripken.github.io/emscripten-site), then download [clapack](http://www.netlib.org/clapack/) into `./clapack`.
 
 First, configure `clapack` by creating `make.inc`:
 
@@ -71,7 +71,7 @@ $ cd F2CLIBS/libf2c
 $ make all
 ```
 
-Now from the main directory, proceed with gulp build:
+Now from the main emlapack directory, proceed with gulp build:
 
 ```bash
 $ gulp build

@@ -53,8 +53,39 @@ console.log(w);
 //   '4': 16.09483711202934 }
 ```
 
+## Building
+
+To build, you'll need to download [Emscripten](http://kripken.github.io/emscripten-site) and download [clapack](http://www.netlib.org/clapack/) into `./clapack`.
+
+First, configure `clapack` by creating `make.inc`:
+
+```bash
+$ cd clapack
+$ cp make.inc.example make.inc
+```
+
+Next, follow the `libf2c` installation instructions. You'll need to tell it to create `*.h` from `*.h0` files. The easiest way is to just `make all`:
+
+```bash
+$ cd F2CLIBS/libf2c
+$ make all
+```
+
+Now from the main directory, proceed with gulp build:
+
+```bash
+$ gulp build
+```
+
+This should take a while. Coffee, perhaps?
+
 For more detail, see:
 
 * http://www.netlib.org/blas/
 * http://www.netlib.org/lapack/
 * http://emscripten.org/
+
+## License
+
+&copy; 2015 Yosuke Onoue, BSD-3-Clause.
+

@@ -18,27 +18,29 @@ var joinNames = function (names) {
     .join(',');
 };
 
-gulp.task('compile-libf2c', shell.task(
+gulp.task('mkbuild', shell.task(['mkdir -p build']));
+
+gulp.task('compile-libf2c', ['mkbuild'], shell.task(
   libf2cFiles.map(function (name) {
     return 'emcc clapack/F2CLIBS/libf2c/' + name + '.c -O2 -Iclapack/INCLUDE -o build/' + name + '.bc';
   })
 ));
 
-gulp.task('compile-blas', shell.task(
+gulp.task('compile-blas', ['mkbuild'], shell.task(
   blasFiles
     .map(function (name) {
       return 'emcc clapack/BLAS/SRC/' + name + '.c -O2 -Iclapack/INCLUDE -o build/' + name + '.bc';
     })
 ));
 
-gulp.task('compile-lapack-install', shell.task(
+gulp.task('compile-lapack-install', ['mkbuild'], shell.task(
   lapackInstallFiles
     .map(function (name) {
       return 'emcc clapack/INSTALL/' + name + '.c -O2 -Iclapack/INCLUDE -o build/' + name + '.bc';
     })
 ));
 
-gulp.task('compile-lapack', shell.task(
+gulp.task('compile-lapack', ['mkbuild'], shell.task(
   lapackFiles
     .map(function (name) {
       return 'emcc clapack/SRC/' + name + '.c -O2 -Iclapack/INCLUDE -o build/' + name + '.bc';

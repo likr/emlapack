@@ -40,6 +40,6 @@ var libf2cFiles = [
   'z_abs',
   'z_div',
   'z_sqrt'
-];
+]
 
-module.exports = libf2cFiles;
+module.exports = libf2cFiles

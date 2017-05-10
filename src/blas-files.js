@@ -1,4 +1,4 @@
-var blasFiles = [
+const blasFiles = [
   'dcabs1',
   'lsame',
   'scabs1',
@@ -149,6 +149,6 @@ var blasFiles = [
   'zher2k',
   'ztrmm',
   'ztrsm'
-];
+]
 
-module.exports = blasFiles;
+module.exports = blasFiles

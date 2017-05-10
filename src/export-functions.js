@@ -1,4 +1,4 @@
-var exportFunctions = [
+const exportFunctions = [
   '_f2c_srotg',
   '_f2c_srotmg',
   '_f2c_srot',
@@ -949,6 +949,6 @@ var exportFunctions = [
   '_ztrttf_',
   '_ztrttp_',
   '_ztzrzf_'
-];
+]
 
-module.exports = exportFunctions;
+module.exports = exportFunctions

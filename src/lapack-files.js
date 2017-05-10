@@ -1,4 +1,4 @@
-var lapackFiles = [
+const lapackFiles = [
   'chla_transtype',
   'dgbtf2',
   'dgebd2',
@@ -1428,6 +1428,6 @@ var lapackFiles = [
   'zsyequb',
   'zpoequb',
   'zheequb'
-];
+]
 
-module.exports = lapackFiles;
+module.exports = lapackFiles

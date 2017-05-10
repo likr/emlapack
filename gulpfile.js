@@ -48,7 +48,7 @@ gulp.task('compile-lapack', ['mkbuild'], shell.task(
 ))
 
 gulp.task('link', ['compile-libf2c', 'compile-blas', 'compile-lapack', 'compile-lapack-install'], shell.task([
-  "emcc build/*.bc -o emlapack.js -O2 --memory-init-file 0 -s EXPORTED_FUNCTIONS='[" + joinNames(exportFunctions) + "]' --post-js src/export.js"
+  "emcc build/*.bc -o emlapack.js -O2 --memory-init-file 0 -s WASM=1 -s EXPORTED_FUNCTIONS='[" + joinNames(exportFunctions) + "]' --post-js src/export.js"
 ]))
 
 gulp.task('build', ['link'])

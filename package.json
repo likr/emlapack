@@ -1,6 +1,6 @@
 {
   "name": "emlapack",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "BLAS/LAPACK for JavaScript",
   "main": "emlapack.js",
   "files": [

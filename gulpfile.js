@@ -47,11 +47,16 @@ gulp.task('compile-lapack', ['mkbuild'], shell.task(
     })
 ))
 
-gulp.task('link', ['compile-libf2c', 'compile-blas', 'compile-lapack', 'compile-lapack-install'], shell.task([
-  "emcc build/*.bc -o emlapack.js -O2 --memory-init-file 0 -s EXPORTED_FUNCTIONS='[" + joinNames(exportFunctions) + "]' --post-js src/export.js"
+gulp.task('link-asmjs', ['compile-libf2c', 'compile-blas', 'compile-lapack', 'compile-lapack-install'], shell.task([
+  "emcc build/*.bc -o asmjs.js -O2 --memory-init-file 0 -s EXPORTED_FUNCTIONS='[" + joinNames(exportFunctions) + "]' --post-js src/export.js"
 ]))
 
-gulp.task('build', ['link'])
+gulp.task('link-wasm', ['compile-libf2c', 'compile-blas', 'compile-lapack', 'compile-lapack-install'], shell.task([
+  "emcc build/*.bc -o emlapack.js -O2 --memory-init-file 0 -s WASM=1 -s EXPORTED_FUNCTIONS='[" + joinNames(exportFunctions) + "]' --post-js src/export.js",
+  'mv emlapack.js wasm.js'
+]))
+
+gulp.task('build', ['link-asmjs', 'link-wasm'])
 
 gulp.task('test', shell.task('mocha --recursive --colors --reporter dot'))
 

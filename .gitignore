@@ -1,3 +1,6 @@
 build
 clapack
 node_modules
+asmjs.js
+wasm.js
+emlapack.wasm

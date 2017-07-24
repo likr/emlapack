@@ -1,10 +1,9 @@
 build
 clapack
 node_modules
+*.md
+*.log
 asmjs.js
 wasm.js
 emlapack.wasm
-custom/*
-!custom/*.example.js
-*.log
-.npmrc
+custom/*.example.js

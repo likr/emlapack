@@ -79,6 +79,36 @@ $ gulp build
 
 This should take a while. Coffee, perhaps?
 
+## Customizing Builds
+
+### Manual
+
+You can modify [src/export-functions.js](./src/export-functions.js) with the functions you are using to reduce the bundle size significantly.
+
+### Docker
+
+If the bundle is too large and you know the specific set of functions you would like to use, you can create a file called `custom/export-functions.js` which exports the list of functions you want.
+
+You could copy the [src/export-functions.js](./src/export-functions.js) file to the [custom](./custom) directory and modify it to your needs.
+
+The [custom](./custom) folder also contains a `export-functions.example.js` you could copy and rename to `export-functions.js` and modify.
+
+## Docker
+
+For convenience, this repo also includes a Dockerfile so you can build everything in Docker.
+
+If you need a custom build, just add your `export-functions.js` file to the [custom](./custom) folder and execute the [scripts/docker_build.sh](./scripts/docker_build.sh) script. All it does is build the container and then runs it.
+
+**NOTE:** Make sure you run this script in the project root directory.
+
+```shell
+./scripts/docker_build.sh
+```
+
+After the script completes, you will see `asmjs.js`, `emlapack.wasm`, and `wasm.js` outputted to the root of the project directory.
+
+## References
+
 For more detail, see:
 
 * http://www.netlib.org/blas/

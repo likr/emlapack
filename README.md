@@ -85,7 +85,7 @@ This should take a while. Coffee, perhaps?
 
 You can modify [src/export-functions.js](./src/export-functions.js) with the functions you are using to reduce the bundle size significantly.
 
-### Docker
+### Custom
 
 If the bundle is too large and you know the specific set of functions you would like to use, you can create a file called `custom/export-functions.js` which exports the list of functions you want.
 
